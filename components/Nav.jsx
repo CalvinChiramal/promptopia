@@ -7,14 +7,18 @@ import { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 
 const Nav = () => {
-  const isUserLoggedIn = true;
+  const { data: session } = useSession();
 
   const [providers, setProviders] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
-    const response = async () => await getProviders();
-    setProviders(response);
+    const retrieveProviders = async () => {
+      const response = await getProviders();
+      setProviders(response);
+    };
+
+    retrieveProviders();
   }, []);
 
   return (
@@ -32,7 +36,7 @@ const Nav = () => {
 
       {/* Desktop Navbar */}
       <div className="sm:flex hidden">
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <div className="flex gap-3 md:gap-5">
             <Link href="create-prompt" className="black_btn">
               Create post
@@ -42,7 +46,7 @@ const Nav = () => {
             </button>
             <Link href="/profile">
               <Image
-                src="/assets/images/logo.svg"
+                src={session?.user.image}
                 alt="User profile"
                 width={37}
                 height={37}
@@ -53,7 +57,7 @@ const Nav = () => {
         ) : (
           <>
             {providers &&
-              providers.map((provider) => (
+              Object.values(providers).map((provider) => (
                 <button
                   key={provider.name}
                   onClick={() => signIn(provider.id)}
@@ -68,10 +72,10 @@ const Nav = () => {
 
       {/* Mobile Navbar */}
       <div className="sm:hidden flex relative">
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <div className="flex">
             <Image
-              src="/assets/images/logo.svg"
+              src={session?.user.image}
               alt="User profile"
               width={37}
               height={37}
@@ -109,7 +113,7 @@ const Nav = () => {
         ) : (
           <>
             {providers &&
-              providers.map((provider) => (
+              Object.values(providers).map((provider) => (
                 <button
                   key={provider.name}
                   onClick={() => signIn(provider.id)}
