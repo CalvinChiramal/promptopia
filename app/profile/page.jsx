@@ -11,10 +11,13 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const { data: session } = useSession();
+  const router = useRouter();
 
-  const handleEdit = () => {};
+  const handleEdit = post => {
+    router.push(`/prompts/${post._id}`);
+  };
 
-  const handleDelete = async () => {};
+  const handleDelete = async post => {};
   useEffect(() => {
     const fetchPosts = async () => {
       try {
