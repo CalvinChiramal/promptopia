@@ -38,7 +38,7 @@ const Nav = () => {
       <div className="sm:flex hidden">
         {session?.user ? (
           <div className="flex gap-3 md:gap-5">
-            <Link href="create-prompt" className="black_btn">
+            <Link href="/prompts/new" className="black_btn">
               Create post
             </Link>
             <button className="outline_btn" onClick={signOut}>
@@ -57,7 +57,7 @@ const Nav = () => {
         ) : (
           <>
             {providers &&
-              Object.values(providers).map((provider) => (
+              Object.values(providers).map(provider => (
                 <button
                   key={provider.name}
                   onClick={() => signIn(provider.id)}
@@ -80,7 +80,7 @@ const Nav = () => {
               width={37}
               height={37}
               className="rounded-full"
-              onClick={() => setIsDropdownOpen((prev) => !prev)}
+              onClick={() => setIsDropdownOpen(prev => !prev)}
             />
             {isDropdownOpen && (
               <div className="dropdown">
@@ -93,7 +93,7 @@ const Nav = () => {
                 </Link>
                 <Link
                   className="dropdown_link"
-                  href="/create-prompt"
+                  href="/prompts/new"
                   onClick={() => setIsDropdownOpen(false)}
                 >
                   Create Prompt
@@ -113,7 +113,7 @@ const Nav = () => {
         ) : (
           <>
             {providers &&
-              Object.values(providers).map((provider) => (
+              Object.values(providers).map(provider => (
                 <button
                   key={provider.name}
                   onClick={() => signIn(provider.id)}

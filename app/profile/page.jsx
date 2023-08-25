@@ -13,28 +13,35 @@ const Profile = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
+  const fetchPosts = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`/api/prompts?creator=${session?.user.id}`, {
+        method: "GET",
+      });
+      const data = await response.json();
+
+      setPosts(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleEdit = post => {
     router.push(`/prompts/${post._id}`);
   };
 
-  const handleDelete = async post => {};
+  const handleDelete = async post => {
+    try {
+      await fetch(`/api/prompts/${post._id}`, { method: "DELETE" });
+      fetchPosts();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch(
-          `/api/prompts?creator=${session?.user.id}`,
-          { method: "GET" },
-        );
-        const data = await response.json();
-
-        setPosts(data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     session?.user && fetchPosts();
   }, []);
 
