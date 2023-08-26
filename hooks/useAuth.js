@@ -6,8 +6,7 @@ import { signIn, useSession, getProviders } from "next-auth/react";
 const useAuth = ({ errorMessage = "" }) => {
   const [providers, setProviders] = useState(null);
 
-  const { data: session } = useSession();
-  const isUserSignedIn = !!session?.user;
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     const retrieveProviders = async () => {
@@ -36,7 +35,7 @@ const useAuth = ({ errorMessage = "" }) => {
     </div>
   );
 
-  return { providers, isUserSignedIn, NoPermissions };
+  return { providers, status, session, NoPermissions };
 };
 
 export default useAuth;

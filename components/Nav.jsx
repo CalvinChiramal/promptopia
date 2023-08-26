@@ -4,15 +4,20 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
-import RightNav from "./RightNav";
 import useAuth from "@hooks/useAuth";
+import { SESSION_STATES } from "@constants";
+
+import RightNav from "./RightNav";
 
 const Nav = () => {
   const pathname = usePathname();
-  const { isUserSignedIn, providers } = useAuth({});
+  const { status, session, providers } = useAuth({});
 
   const isEditOrCreatePath = pathname.startsWith("/prompts/");
-  const isRightNavHidden = isEditOrCreatePath && !isUserSignedIn;
+  const isRightNavHidden =
+    isEditOrCreatePath && status === SESSION_STATES.unauthenticated;
+
+  if (status === SESSION_STATES.loading) return <></>;
 
   return (
     <nav className="flex-between w-full mb-16 pt-3">
@@ -27,7 +32,9 @@ const Nav = () => {
         <p className="logo_text">Promptopia</p>
       </Link>
 
-      {!isRightNavHidden && <RightNav providers={providers} />}
+      {!isRightNavHidden && (
+        <RightNav providers={providers} session={session} status={status} />
+      )}
     </nav>
   );
 };

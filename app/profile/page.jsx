@@ -1,17 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import UserProfile from "@components/UserProfile";
 import Loader from "@components/Loader";
+import useAuth from "@hooks/useAuth";
+import { SESSION_STATES } from "@constants";
 
 const Profile = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { data: session } = useSession();
+  const { session, status } = useAuth({});
   const router = useRouter();
 
   const fetchPosts = async () => {
@@ -46,7 +47,7 @@ const Profile = () => {
     session?.user && fetchPosts();
   }, []);
 
-  if (isLoading) {
+  if (isLoading || status === SESSION_STATES.loading) {
     return <Loader />;
   }
 

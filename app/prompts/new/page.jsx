@@ -1,20 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import Form from "@components/Form";
 import useAuth from "@hooks/useAuth";
+import Loader from "@components/Loader";
+import { SESSION_STATES } from "@constants";
 
 const CreatePrompt = () => {
   const [submitting, setSubmitting] = useState(false);
   const [post, setPost] = useState({ prompt: "", tag: "" });
 
   const router = useRouter();
-  const { data: session } = useSession();
 
-  const { isUserSignedIn, NoPermissions } = useAuth({
+  const { session, status, NoPermissions } = useAuth({
     errorMessage: "Please login to create a prompt",
   });
 
@@ -42,7 +42,11 @@ const CreatePrompt = () => {
     }
   };
 
-  if (!isUserSignedIn) {
+  if (status === SESSION_STATES.loading) {
+    return <Loader />;
+  }
+
+  if (status === SESSION_STATES.unauthenticated) {
     return <NoPermissions />;
   }
 

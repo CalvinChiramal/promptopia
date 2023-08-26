@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 
 import Loader from "@components/Loader";
 import useAuth from "@hooks/useAuth";
+import { SESSION_STATES } from "@constants";
 
 const EditPrompt = () => {
   const [post, setPost] = useState({ prompt: "", tag: "" });
@@ -15,7 +16,7 @@ const EditPrompt = () => {
   const { id: postId } = useParams();
   const router = useRouter();
 
-  const { isUserSignedIn, NoPermissions } = useAuth({
+  const { status, NoPermissions } = useAuth({
     errorMessage: "Please sign in to edit this prompt",
   });
 
@@ -61,12 +62,12 @@ const EditPrompt = () => {
     postId && fetchPost();
   }, [postId]);
 
-  if (!isUserSignedIn) {
-    return <NoPermissions />;
+  if (isLoading || status === SESSION_STATES.loading) {
+    return <Loader />;
   }
 
-  if (isLoading) {
-    return <Loader />;
+  if (status === SESSION_STATES.unauthenticated) {
+    return <NoPermissions />;
   }
 
   return (

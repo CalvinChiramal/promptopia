@@ -3,18 +3,18 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 
-const RightNav = ({ providers }) => {
+import { SESSION_STATES } from "@constants";
+
+const RightNav = ({ providers, session, status }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const { data: session } = useSession();
 
   return (
     <>
       {/* Desktop Navbar */}
       <div className="sm:flex hidden">
-        {session?.user ? (
+        {status === SESSION_STATES.authenticated ? (
           <div className="flex gap-3 md:gap-5">
             <Link href="/prompts/new" className="black_btn">
               Create post
@@ -50,7 +50,7 @@ const RightNav = ({ providers }) => {
 
       {/* Mobile Navbar */}
       <div className="sm:hidden flex relative">
-        {session?.user ? (
+        {status === SESSION_STATES.authenticated ? (
           <div className="flex">
             <Image
               src={session?.user.image}

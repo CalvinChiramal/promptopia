@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
+
+import useAuth from "@hooks/useAuth";
 
 const PromptCard = ({
   post,
@@ -12,7 +13,7 @@ const PromptCard = ({
 }) => {
   const [copied, setCopied] = useState("");
 
-  const { data: session } = useSession();
+  const { session } = useAuth({});
   const pathname = usePathname();
 
   const handleCopyClick = () => {
