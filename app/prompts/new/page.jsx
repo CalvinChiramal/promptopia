@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import Form from "@components/Form";
+import useAuth from "@hooks/useAuth";
 
 const CreatePrompt = () => {
   const [submitting, setSubmitting] = useState(false);
@@ -12,6 +13,10 @@ const CreatePrompt = () => {
 
   const router = useRouter();
   const { data: session } = useSession();
+
+  const { isUserSignedIn, NoPermissions } = useAuth({
+    errorMessage: "Please login to create a prompt",
+  });
 
   const createPrompt = async e => {
     e.preventDefault();
@@ -37,8 +42,8 @@ const CreatePrompt = () => {
     }
   };
 
-  if (!session?.user) {
-    return <div>Please login to create a prompt</div>;
+  if (!isUserSignedIn) {
+    return <NoPermissions />;
   }
 
   return (

@@ -4,6 +4,9 @@ import Form from "@components/Form";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 
+import Loader from "@components/Loader";
+import useAuth from "@hooks/useAuth";
+
 const EditPrompt = () => {
   const [post, setPost] = useState({ prompt: "", tag: "" });
   const [isLoading, setIsLoading] = useState(true);
@@ -11,6 +14,10 @@ const EditPrompt = () => {
 
   const { id: postId } = useParams();
   const router = useRouter();
+
+  const { isUserSignedIn, NoPermissions } = useAuth({
+    errorMessage: "Please sign in to edit this prompt",
+  });
 
   const editPrompt = async e => {
     e.preventDefault();
@@ -54,8 +61,12 @@ const EditPrompt = () => {
     postId && fetchPost();
   }, [postId]);
 
+  if (!isUserSignedIn) {
+    return <NoPermissions />;
+  }
+
   if (isLoading) {
-    return <div className="w-screen h-screen text-center">Loading...</div>;
+    return <Loader />;
   }
 
   return (
