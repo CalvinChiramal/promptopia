@@ -15,7 +15,7 @@ const CreatePrompt = () => {
   const router = useRouter();
 
   const { session, status, NoPermissions } = useAuth({
-    errorMessage: "Please login to create a prompt",
+    errorMessage: "Please sign in to create a prompt",
   });
 
   const createPrompt = async e => {

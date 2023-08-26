@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { signIn, useSession, getProviders } from "next-auth/react";
+import Image from "next/image";
 
 const useAuth = ({ errorMessage = "" }) => {
   const [providers, setProviders] = useState(null);
@@ -19,9 +20,13 @@ const useAuth = ({ errorMessage = "" }) => {
 
   const NoPermissions = () => (
     <div className="w-full h-full flex-center flex-col space-y-6">
-      <span className="text-3xl blue_gradient font-satoshi">
-        {errorMessage}
-      </span>
+      <Image
+        src="/assets/icons/forbidden.svg"
+        alt="forbidden"
+        width={120}
+        height={120}
+      />
+      <span className="text-xl blue_gradient font-satoshi">{errorMessage}</span>
       {providers &&
         Object.values(providers).map(provider => (
           <button
