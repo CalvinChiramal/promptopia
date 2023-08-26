@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import UserProfile from "@components/UserProfile";
+import Loader from "@components/Loader";
 
 const Profile = () => {
   const [posts, setPosts] = useState([]);
@@ -46,7 +47,7 @@ const Profile = () => {
   }, []);
 
   if (isLoading) {
-    return <div className="w-screen h-screen text-center">Loading...</div>;
+    return <Loader />;
   }
 
   return (

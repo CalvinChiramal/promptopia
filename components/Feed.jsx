@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import PromptCard from "./PromptCard";
+import Loader from "./Loader";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
@@ -25,7 +27,7 @@ const Feed = () => {
   }, []);
 
   if (isLoading) {
-    return <div className="w-screen h-screen text-center">Loading...</div>;
+    return <Loader />;
   }
 
   return (

@@ -37,6 +37,10 @@ const CreatePrompt = () => {
     }
   };
 
+  if (!session?.user) {
+    return <div>Please login to create a prompt</div>;
+  }
+
   return (
     <Form
       type="Create"
