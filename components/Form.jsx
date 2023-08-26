@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
   return (
-    <section className="w-full max-w-full flex-start flex-col">
+    <section className="w-full max-w-full h-full flex-start flex-col">
       <h1 className="head_text text-left">
         <span className="blue_gradient">{type} Post</span>
       </h1>
@@ -11,7 +11,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
         run wild with any AI-powered platform.
       </p>
       <form
-        className="mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism"
+        className="mt-8 w-full max-w-2xl flex flex-col gap-7 glassmorphism"
         onSubmit={handleSubmit}
         method="POST"
       >
@@ -42,7 +42,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
             className="form_input"
           />
         </label>
-        <div className="flex-end mx-3 mb-5 gap-4">
+        <div className="flex-end mx-3 mb-3 gap-4">
           <Link href="/" className="text-gray-500 text-sm">
             Cancel
           </Link>

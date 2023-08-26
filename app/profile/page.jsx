@@ -43,6 +43,7 @@ const Profile = () => {
       console.log(error);
     }
   };
+
   useEffect(() => {
     session?.user && fetchPosts();
   }, []);
